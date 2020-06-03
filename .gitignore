@@ -31,3 +31,8 @@ Assets/Local
 Assets/Local.meta
 AssetBundles/
 Docs/local
+
+## ml_agents
+/summaries
+/models
+
