@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Move : MonoBehaviour {
+namespace PacMan
+{
+    public class Move : MonoBehaviour
+    {
 
-	public float speed;
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		transform.Translate(Vector3.left * speed * Time.deltaTime);
-	}
+        public float speed;
 
-	void OnTriggerEnter2D(Collider2D col)
-	{
-		Destroy(gameObject);
-	}
+        // Update is called once per frame
+        void Update()
+        {
+            transform.Translate(Vector3.left * speed * Time.deltaTime);
+        }
+
+        void OnTriggerEnter2D(Collider2D col)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

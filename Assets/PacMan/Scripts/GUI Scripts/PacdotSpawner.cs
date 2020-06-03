@@ -1,29 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PacdotSpawner : MonoBehaviour {
+namespace PacMan
+{
+    public class PacdotSpawner : MonoBehaviour
+    {
 
-	public GameObject pacdot;
-	public float interval;
-	public float startOffset;
+        public GameObject pacdot;
+        public float interval;
+        public float startOffset;
 
-	private float startTime;
+        private float startTime;
 
-	// Use this for initialization
-	void Start () 
-	{
-		startTime = Time.time + startOffset;
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		if(Time.time > startTime + interval)
-		{
-			GameObject obj = (GameObject)Instantiate(pacdot, transform.position, Quaternion.identity);
-			obj.transform.parent = transform;
+        // Use this for initialization
+        void Start()
+        {
+            startTime = Time.time + startOffset;
+        }
 
-			startTime = Time.time;
-		}
-	}
+        // Update is called once per frame
+        void Update()
+        {
+            if (Time.time > startTime + interval) {
+                GameObject obj = (GameObject)Instantiate(pacdot, transform.position, Quaternion.identity);
+                obj.transform.parent = transform;
+
+                startTime = Time.time;
+            }
+        }
+    }
 }

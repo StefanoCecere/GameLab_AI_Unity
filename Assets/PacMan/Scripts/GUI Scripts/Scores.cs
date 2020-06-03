@@ -2,26 +2,28 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Scores : MonoBehaviour
+namespace PacMan
 {
-    public ScoreManager scoreManager;
-
-    Text scores_txt;
-
-    public void UpdateGUIText(List<ScoreManager.Score> scoreList)
+    public class Scores : MonoBehaviour
     {
-        scores_txt = GetComponent<Text>();
-        Debug.Log("Updating GUIText: scorelist count=" + scoreList.Count);
-        string s = "";
-        foreach (ScoreManager.Score sc in scoreList)
+        public ScoreManager scoreManager;
+
+        Text scores_txt;
+
+        public void UpdateGUIText(List<ScoreManager.Score> scoreList)
         {
-            if (sc.score < 1000)
-                s += sc.score + "\t\t\t" + sc.name + "\n";
-            else
-                s += sc.score + "\t\t" + sc.name + "\n";
+            scores_txt = GetComponent<Text>();
+            Debug.Log("Updating GUIText: scorelist count=" + scoreList.Count);
+            string s = "";
+            foreach (ScoreManager.Score sc in scoreList) {
+                if (sc.score < 1000)
+                    s += sc.score + "\t\t\t" + sc.name + "\n";
+                else
+                    s += sc.score + "\t\t" + sc.name + "\n";
+            }
+
+            scores_txt.text = s;
         }
 
-        scores_txt.text = s;
     }
-
 }
