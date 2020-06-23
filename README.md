@@ -13,7 +13,7 @@ https://github.com/Unity-Technologies/ml-agents/blob/release_2_branch/docs/Using
 
 ### commands
 #### activate environment
-source ~/python-envs/ml-agents/bin/activate
+source ~/python-envs/mlagents-env/bin/activate
 
 #### run the simulation
 go into project directory
