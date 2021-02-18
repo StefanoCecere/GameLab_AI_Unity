@@ -4,12 +4,10 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_Name: GridMat
-  m_Shader: {fileID: -6465566751694194690, guid: 5abd09e9d4efa462e8ecfc38697b5ccd,
-    type: 3}
+  m_Shader: {fileID: 4800000, guid: bbecf177c38d84ff08d7c683c116affd, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -66,9 +64,9 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
-    - _GridSize: 12
+    - _GridSize: 3
     - _LineOffset: 0.5
-    - _LineSize: 0.242
+    - _LineSize: 0.01
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
