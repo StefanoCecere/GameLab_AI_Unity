@@ -23,9 +23,6 @@ default:
             strength: 1.0
             gamma: 0.99
 
-CarDrive:
-    max_steps: 1.0e6
-
 FoodCollector:
     normalize: false
     beta: 5.0e-3
@@ -352,10 +349,3 @@ Basic:
         extrinsic:
             strength: 1.0
             gamma: 0.9
-
-Hummingbird:
-    time_horizon: 128
-    batch_size: 2048
-    buffer_size: 20480
-    hidden_units: 256
-    max_steps: 5.0e6
