@@ -126,7 +126,7 @@ VisualPyramids:
             gamma: 0.99
             encoding_size: 128
             use_actions: true
-            demo_path: Project/Assets/ML-Agents/Examples/Pyramids/Demos/ExpertPyramid.demo
+            demo_path: Assets/ML-Agents/Examples/Pyramids/Demos/ExpertPyramid.demo
 
 3DBall:
     normalize: true
