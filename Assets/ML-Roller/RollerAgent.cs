@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
 namespace MLExamples.Roller
@@ -31,10 +32,11 @@ namespace MLExamples.Roller
                                                Random.value * 8 - 4);
         }
 
-        public override void Heuristic(float[] actionsOut)
+        public override void Heuristic(in ActionBuffers actionsOut)
         {
-            actionsOut[0] = Input.GetAxis("Horizontal");
-            actionsOut[1] = Input.GetAxis("Vertical");
+            var continuousActionsOut = actionsOut.ContinuousActions;
+            continuousActionsOut[0] = -Input.GetAxis("Horizontal");
+            continuousActionsOut[1] = Input.GetAxis("Vertical");
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -48,12 +50,12 @@ namespace MLExamples.Roller
             sensor.AddObservation(rBody.velocity.z);
         }
 
-        public override void OnActionReceived(float[] vectorAction)
+        public override void OnActionReceived(ActionBuffers actionBuffers)
         {
             // Actions, size = 2
             Vector3 controlSignal = Vector3.zero;
-            controlSignal.x = vectorAction[0];
-            controlSignal.z = vectorAction[1];
+            controlSignal.x = actionBuffers.ContinuousActions[0];
+            controlSignal.z = actionBuffers.ContinuousActions[1];
             rBody.AddForce(controlSignal * speed);
 
             // Rewards

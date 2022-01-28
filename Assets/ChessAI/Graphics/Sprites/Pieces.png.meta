@@ -59,6 +59,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -69,7 +71,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 2
     aniso: 0
-    mipBias: -100
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -90,9 +92,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
@@ -396,6 +401,19 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Queen B: -5519977043689896800
+      Bishop B: -4521170433502928094
+      King B: 6713323665980220584
+      King W: 5815346444209245126
+      Rook W: -8231439895271094956
+      Queen W: -5707208235025365451
+      Knight W: 5262411738066956617
+      Bishop W: 1801684832408766203
+      Rook B: -9028730725494140493
+      Pawn B: -7446464978723970562
+      Pawn W: 421191062671846005
+      Knight B: 2484422302985503874
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

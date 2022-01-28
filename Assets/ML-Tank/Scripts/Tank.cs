@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
 namespace MLExamples.Tank
@@ -56,7 +57,7 @@ namespace MLExamples.Tank
             }
         }
 
-        public override void OnActionReceived(float[] vectorAction)
+        public override void OnActionReceived(ActionBuffers actionBuffers)
         {
             AddReward(-1f / 3000f);
             if (lastDied <= 0 && !boxCollider.enabled) {
@@ -65,8 +66,8 @@ namespace MLExamples.Tank
             }
 
             if (lastDied <= 0) {
-                int translation = (int)vectorAction[0] - 1;
-                int rotation = (int)vectorAction[1] - 1;
+                int translation = (int)actionBuffers.ContinuousActions[0] - 1;
+                int rotation = (int)actionBuffers.ContinuousActions[1] - 1;
                 agentRb.MoveRotation(agentRb.rotation * Quaternion.Euler(transform.up * Time.deltaTime * RotateSpeed * rotation));
                 agentRb.velocity = transform.forward * Speed * Time.deltaTime * translation;
             } else {
@@ -74,7 +75,7 @@ namespace MLExamples.Tank
                 lastDied -= Time.deltaTime;
             }
 
-            if (lastDied <= 0 && lastShot <= 0 && bulletCount > 0 && vectorAction[2] == 1) {
+            if (lastDied <= 0 && lastShot <= 0 && bulletCount > 0 && actionBuffers.ContinuousActions[2] == 1) {
                 bulletCount--;
                 lastShot = ShootCooldown;
                 var bullet = Instantiate(BulletPrefab, transform.position + transform.forward * -BulletOffset + transform.up * BulletHeight, transform.rotation, transform.parent);
@@ -88,12 +89,14 @@ namespace MLExamples.Tank
             }
         }
 
-        public override void Heuristic(float[] actionsOut)
+        public override void Heuristic(in ActionBuffers actionsOut)
         {
-            actionsOut[0] = -Input.GetAxisRaw("Vertical") + 1;
-            actionsOut[1] = Input.GetAxisRaw("Horizontal") + 1;
-            actionsOut[2] = Input.GetKey("space") ? 1 : 0;
+            var continuousActionsOut = actionsOut.ContinuousActions;
+            continuousActionsOut[0] = -Input.GetAxisRaw("Vertical") + 1;
+            continuousActionsOut[1] = Input.GetAxisRaw("Horizontal") + 1;
+            continuousActionsOut[2] = Input.GetKey("space") ? 1 : 0;
         }
+
 
         public override void CollectObservations(VectorSensor sensor)
         {

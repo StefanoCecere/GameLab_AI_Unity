@@ -1091,6 +1091,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -1100,8 +1102,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -1122,9 +1124,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
@@ -2433,6 +2438,68 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      spritesheet_211: 21300276
+      spritesheet_216: 21300286
+      spritesheet_171: 21300212
+      spritesheet_136: 21300158
+      spritesheet_244: 21300336
+      spritesheet_411: 21300606
+      spritesheet_140: 21300166
+      spritesheet_247: 21300342
+      spritesheet_213: 21300280
+      spritesheet_177: 21300224
+      spritesheet_248: 21300344
+      spritesheet_210: 21300274
+      spritesheet_280: 21300400
+      spritesheet_345: 21300498
+      spritesheet_346: 21300500
+      spritesheet_275: 21300390
+      spritesheet_380: 21300556
+      spritesheet_135: 21300156
+      spritesheet_242: 21300332
+      spritesheet_379: 21300554
+      spritesheet_173: 21300216
+      spritesheet_214: 21300282
+      spritesheet_317: 21300450
+      spritesheet_172: 21300214
+      spritesheet_175: 21300220
+      spritesheet_243: 21300334
+      spritesheet_412: 21300608
+      spritesheet_138: 21300162
+      spritesheet_282: 21300404
+      spritesheet_414: 21300612
+      spritesheet_276: 21300392
+      spritesheet_277: 21300394
+      spritesheet_417: 21300618
+      spritesheet_409: 21300602
+      spritesheet_416: 21300616
+      spritesheet_344: 21300496
+      spritesheet_137: 21300160
+      spritesheet_279: 21300398
+      spritesheet_378: 21300552
+      spritesheet_134: 21300154
+      spritesheet_278: 21300396
+      spritesheet_281: 21300402
+      spritesheet_212: 21300278
+      spritesheet_245: 21300338
+      spritesheet_415: 21300614
+      spritesheet_350: 21300504
+      spritesheet_209: 21300272
+      spritesheet_410: 21300604
+      spritesheet_246: 21300340
+      spritesheet_215: 21300284
+      spritesheet_347: 21300502
+      spritesheet_176: 21300222
+      spritesheet_419: 21300622
+      spritesheet_174: 21300218
+      spritesheet_178: 21300226
+      spritesheet_249: 21300346
+      spritesheet_413: 21300610
+      spritesheet_141: 21300168
+      spritesheet_377: 21300550
+      spritesheet_139: 21300164
+      spritesheet_418: 21300620
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
