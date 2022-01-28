@@ -1,11 +1,16 @@
 using UnityEngine;
 using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using Random = UnityEngine.Random;
 
 public class Ball3DAgent : Agent
 {
     [Header("Specific to Ball3D")]
     public GameObject ball;
+    [Tooltip("Whether to use vector observation. This option should be checked " +
+        "in 3DBall scene, and unchecked in Visual3DBall scene. ")]
+    public bool useVecObs;
     Rigidbody m_BallRb;
     EnvironmentParameters m_ResetParams;
 
@@ -18,16 +23,19 @@ public class Ball3DAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(gameObject.transform.rotation.z);
-        sensor.AddObservation(gameObject.transform.rotation.x);
-        sensor.AddObservation(ball.transform.position - gameObject.transform.position);
-        sensor.AddObservation(m_BallRb.velocity);
+        if (useVecObs)
+        {
+            sensor.AddObservation(gameObject.transform.rotation.z);
+            sensor.AddObservation(gameObject.transform.rotation.x);
+            sensor.AddObservation(ball.transform.position - gameObject.transform.position);
+            sensor.AddObservation(m_BallRb.velocity);
+        }
     }
 
-    public override void OnActionReceived(float[] vectorAction)
+    public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        var actionZ = 2f * Mathf.Clamp(vectorAction[0], -1f, 1f);
-        var actionX = 2f * Mathf.Clamp(vectorAction[1], -1f, 1f);
+        var actionZ = 2f * Mathf.Clamp(actionBuffers.ContinuousActions[0], -1f, 1f);
+        var actionX = 2f * Mathf.Clamp(actionBuffers.ContinuousActions[1], -1f, 1f);
 
         if ((gameObject.transform.rotation.z < 0.25f && actionZ > 0f) ||
             (gameObject.transform.rotation.z > -0.25f && actionZ < 0f))
@@ -65,10 +73,11 @@ public class Ball3DAgent : Agent
         SetResetParameters();
     }
 
-    public override void Heuristic(float[] actionsOut)
+    public override void Heuristic(in ActionBuffers actionsOut)
     {
-        actionsOut[0] = -Input.GetAxis("Horizontal");
-        actionsOut[1] = Input.GetAxis("Vertical");
+        var continuousActionsOut = actionsOut.ContinuousActions;
+        continuousActionsOut[0] = -Input.GetAxis("Horizontal");
+        continuousActionsOut[1] = Input.GetAxis("Vertical");
     }
 
     public void SetBall()

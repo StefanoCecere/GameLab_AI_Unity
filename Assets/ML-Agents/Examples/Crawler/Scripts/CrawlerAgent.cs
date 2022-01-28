@@ -1,20 +1,42 @@
 using UnityEngine;
 using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
 using Unity.MLAgentsExamples;
 using Unity.MLAgents.Sensors;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(JointDriveController))] // Required to set joint forces
 public class CrawlerAgent : Agent
 {
-    [Header("Target To Walk Towards")]
-    [Space(10)]
-    public Transform target;
 
-    public Transform ground;
-    public bool detectTargets;
-    public bool targetIsStatic;
-    public bool respawnTargetWhenTouched;
-    public float targetSpawnRadius;
+    [Header("Walk Speed")]
+    [Range(0.1f, m_maxWalkingSpeed)]
+    [SerializeField]
+    [Tooltip(
+        "The speed the agent will try to match.\n\n" +
+        "TRAINING:\n" +
+        "For VariableSpeed envs, this value will randomize at the start of each training episode.\n" +
+        "Otherwise the agent will try to match the speed set here.\n\n" +
+        "INFERENCE:\n" +
+        "During inference, VariableSpeed agents will modify their behavior based on this value " +
+        "whereas the CrawlerDynamic & CrawlerStatic agents will run at the speed specified during training "
+    )]
+    //The walking speed to try and achieve
+    private float m_TargetWalkingSpeed = m_maxWalkingSpeed;
+
+    const float m_maxWalkingSpeed = 15; //The max walking speed
+
+    //The current target walking speed. Clamped because a value of zero will cause NaNs
+    public float TargetWalkingSpeed
+    {
+        get { return m_TargetWalkingSpeed; }
+        set { m_TargetWalkingSpeed = Mathf.Clamp(value, .1f, m_maxWalkingSpeed); }
+    }
+
+    //The direction an agent will walk during training.
+    [Header("Target To Walk Towards")]
+    public Transform TargetPrefab; //Target prefab to use in Dynamic envs
+    private Transform m_Target; //Target the agent will walk towards during training.
 
     [Header("Body Parts")] [Space(10)] public Transform body;
     public Transform leg0Upper;
@@ -26,17 +48,13 @@ public class CrawlerAgent : Agent
     public Transform leg3Upper;
     public Transform leg3Lower;
 
-    [Header("Joint Settings")] [Space(10)] JointDriveController m_JdController;
-    Vector3 m_DirToTarget;
-    float m_MovingTowardsDot;
-    float m_FacingDot;
+    //This will be used as a stabilized model space reference point for observations
+    //Because ragdolls can move erratically during training, using a stabilized reference transform improves learning
+    OrientationCubeController m_OrientationCube;
 
-    [Header("Reward Functions To Use")]
-    [Space(10)]
-    public bool rewardMovingTowardsTarget; // Agent should move towards target
-
-    public bool rewardFacingTarget; // Agent should face the target
-    public bool rewardUseTimePenalty; // Hurry up
+    //The indicator graphic gameobject that points towards the target
+    DirectionIndicator m_DirectionIndicator;
+    JointDriveController m_JdController;
 
     [Header("Foot Grounded Visualization")]
     [Space(10)]
@@ -49,14 +67,13 @@ public class CrawlerAgent : Agent
     public Material groundedMaterial;
     public Material unGroundedMaterial;
 
-    Quaternion m_LookRotation;
-    Matrix4x4 m_TargetDirMatrix;
-
     public override void Initialize()
     {
-        m_JdController = GetComponent<JointDriveController>();
-        m_DirToTarget = target.position - body.position;
+        SpawnTarget(TargetPrefab, transform.position); //spawn target
 
+        m_OrientationCube = GetComponentInChildren<OrientationCubeController>();
+        m_DirectionIndicator = GetComponentInChildren<DirectionIndicator>();
+        m_JdController = GetComponent<JointDriveController>();
 
         //Setup each body part
         m_JdController.SetupBodyPart(body);
@@ -71,121 +88,118 @@ public class CrawlerAgent : Agent
     }
 
     /// <summary>
+    /// Spawns a target prefab at pos
+    /// </summary>
+    /// <param name="prefab"></param>
+    /// <param name="pos"></param>
+    void SpawnTarget(Transform prefab, Vector3 pos)
+    {
+        m_Target = Instantiate(prefab, pos, Quaternion.identity, transform.parent);
+    }
+
+    /// <summary>
+    /// Loop over body parts and reset them to initial conditions.
+    /// </summary>
+    public override void OnEpisodeBegin()
+    {
+        foreach (var bodyPart in m_JdController.bodyPartsDict.Values)
+        {
+            bodyPart.Reset(bodyPart);
+        }
+
+        //Random start rotation to help generalize
+        body.rotation = Quaternion.Euler(0, Random.Range(0.0f, 360.0f), 0);
+
+        UpdateOrientationObjects();
+
+        //Set our goal walking speed
+        TargetWalkingSpeed = Random.Range(0.1f, m_maxWalkingSpeed);
+    }
+
+    /// <summary>
     /// Add relevant information on each body part to observations.
     /// </summary>
     public void CollectObservationBodyPart(BodyPart bp, VectorSensor sensor)
     {
-        var rb = bp.rb;
-        sensor.AddObservation(bp.groundContact.touchingGround ? 1 : 0); // Whether the bp touching the ground
-
-        var velocityRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(rb.velocity);
-        sensor.AddObservation(velocityRelativeToLookRotationToTarget);
-
-        var angularVelocityRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(rb.angularVelocity);
-        sensor.AddObservation(angularVelocityRelativeToLookRotationToTarget);
+        //GROUND CHECK
+        sensor.AddObservation(bp.groundContact.touchingGround); // Is this bp touching the ground
 
         if (bp.rb.transform != body)
         {
-            var localPosRelToBody = body.InverseTransformPoint(rb.position);
-            sensor.AddObservation(localPosRelToBody);
-            sensor.AddObservation(bp.currentXNormalizedRot); // Current x rot
-            sensor.AddObservation(bp.currentYNormalizedRot); // Current y rot
-            sensor.AddObservation(bp.currentZNormalizedRot); // Current z rot
             sensor.AddObservation(bp.currentStrength / m_JdController.maxJointForceLimit);
         }
     }
 
+    /// <summary>
+    /// Loop over body parts to add them to observation.
+    /// </summary>
     public override void CollectObservations(VectorSensor sensor)
     {
-        m_JdController.GetCurrentJointForces();
+        var cubeForward = m_OrientationCube.transform.forward;
 
-        // Update pos to target
-        m_DirToTarget = target.position - body.position;
-        m_LookRotation = Quaternion.LookRotation(m_DirToTarget);
-        m_TargetDirMatrix = Matrix4x4.TRS(Vector3.zero, m_LookRotation, Vector3.one);
+        //velocity we want to match
+        var velGoal = cubeForward * TargetWalkingSpeed;
+        //ragdoll's avg vel
+        var avgVel = GetAvgVelocity();
+
+        //current ragdoll velocity. normalized
+        sensor.AddObservation(Vector3.Distance(velGoal, avgVel));
+        //avg body vel relative to cube
+        sensor.AddObservation(m_OrientationCube.transform.InverseTransformDirection(avgVel));
+        //vel goal relative to cube
+        sensor.AddObservation(m_OrientationCube.transform.InverseTransformDirection(velGoal));
+        //rotation delta
+        sensor.AddObservation(Quaternion.FromToRotation(body.forward, cubeForward));
+
+        //Add pos of target relative to orientation cube
+        sensor.AddObservation(m_OrientationCube.transform.InverseTransformPoint(m_Target.transform.position));
 
         RaycastHit hit;
-        if (Physics.Raycast(body.position, Vector3.down, out hit, 10.0f))
+        float maxRaycastDist = 10;
+        if (Physics.Raycast(body.position, Vector3.down, out hit, maxRaycastDist))
         {
-            sensor.AddObservation(hit.distance);
+            sensor.AddObservation(hit.distance / maxRaycastDist);
         }
         else
-            sensor.AddObservation(10.0f);
+            sensor.AddObservation(1);
 
-        // Forward & up to help with orientation
-        var bodyForwardRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(body.forward);
-        sensor.AddObservation(bodyForwardRelativeToLookRotationToTarget);
-
-        var bodyUpRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(body.up);
-        sensor.AddObservation(bodyUpRelativeToLookRotationToTarget);
-
-        foreach (var bodyPart in m_JdController.bodyPartsDict.Values)
+        foreach (var bodyPart in m_JdController.bodyPartsList)
         {
             CollectObservationBodyPart(bodyPart, sensor);
         }
     }
 
-    /// <summary>
-    /// Agent touched the target
-    /// </summary>
-    public void TouchedTarget()
-    {
-        AddReward(1f);
-        if (respawnTargetWhenTouched)
-        {
-            GetRandomTargetPos();
-        }
-    }
-
-    /// <summary>
-    /// Moves target to a random position within specified radius.
-    /// </summary>
-    public void GetRandomTargetPos()
-    {
-        var newTargetPos = Random.insideUnitSphere * targetSpawnRadius;
-        newTargetPos.y = 5;
-        target.position = newTargetPos + ground.position;
-    }
-
-    public override void OnActionReceived(float[] vectorAction)
+    public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         // The dictionary with all the body parts in it are in the jdController
         var bpDict = m_JdController.bodyPartsDict;
 
+        var continuousActions = actionBuffers.ContinuousActions;
         var i = -1;
         // Pick a new target joint rotation
-        bpDict[leg0Upper].SetJointTargetRotation(vectorAction[++i], vectorAction[++i], 0);
-        bpDict[leg1Upper].SetJointTargetRotation(vectorAction[++i], vectorAction[++i], 0);
-        bpDict[leg2Upper].SetJointTargetRotation(vectorAction[++i], vectorAction[++i], 0);
-        bpDict[leg3Upper].SetJointTargetRotation(vectorAction[++i], vectorAction[++i], 0);
-        bpDict[leg0Lower].SetJointTargetRotation(vectorAction[++i], 0, 0);
-        bpDict[leg1Lower].SetJointTargetRotation(vectorAction[++i], 0, 0);
-        bpDict[leg2Lower].SetJointTargetRotation(vectorAction[++i], 0, 0);
-        bpDict[leg3Lower].SetJointTargetRotation(vectorAction[++i], 0, 0);
+        bpDict[leg0Upper].SetJointTargetRotation(continuousActions[++i], continuousActions[++i], 0);
+        bpDict[leg1Upper].SetJointTargetRotation(continuousActions[++i], continuousActions[++i], 0);
+        bpDict[leg2Upper].SetJointTargetRotation(continuousActions[++i], continuousActions[++i], 0);
+        bpDict[leg3Upper].SetJointTargetRotation(continuousActions[++i], continuousActions[++i], 0);
+        bpDict[leg0Lower].SetJointTargetRotation(continuousActions[++i], 0, 0);
+        bpDict[leg1Lower].SetJointTargetRotation(continuousActions[++i], 0, 0);
+        bpDict[leg2Lower].SetJointTargetRotation(continuousActions[++i], 0, 0);
+        bpDict[leg3Lower].SetJointTargetRotation(continuousActions[++i], 0, 0);
 
         // Update joint strength
-        bpDict[leg0Upper].SetJointStrength(vectorAction[++i]);
-        bpDict[leg1Upper].SetJointStrength(vectorAction[++i]);
-        bpDict[leg2Upper].SetJointStrength(vectorAction[++i]);
-        bpDict[leg3Upper].SetJointStrength(vectorAction[++i]);
-        bpDict[leg0Lower].SetJointStrength(vectorAction[++i]);
-        bpDict[leg1Lower].SetJointStrength(vectorAction[++i]);
-        bpDict[leg2Lower].SetJointStrength(vectorAction[++i]);
-        bpDict[leg3Lower].SetJointStrength(vectorAction[++i]);
+        bpDict[leg0Upper].SetJointStrength(continuousActions[++i]);
+        bpDict[leg1Upper].SetJointStrength(continuousActions[++i]);
+        bpDict[leg2Upper].SetJointStrength(continuousActions[++i]);
+        bpDict[leg3Upper].SetJointStrength(continuousActions[++i]);
+        bpDict[leg0Lower].SetJointStrength(continuousActions[++i]);
+        bpDict[leg1Lower].SetJointStrength(continuousActions[++i]);
+        bpDict[leg2Lower].SetJointStrength(continuousActions[++i]);
+        bpDict[leg3Lower].SetJointStrength(continuousActions[++i]);
     }
 
     void FixedUpdate()
     {
-        if (detectTargets)
-        {
-            foreach (var bodyPart in m_JdController.bodyPartsDict.Values)
-            {
-                if (bodyPart.targetContact && bodyPart.targetContact.touchingTarget)
-                {
-                    TouchedTarget();
-                }
-            }
-        }
+        UpdateOrientationObjects();
 
         // If enabled the feet will light up green when the foot is grounded.
         // This is just a visualization and isn't necessary for function
@@ -205,67 +219,72 @@ public class CrawlerAgent : Agent
                 : unGroundedMaterial;
         }
 
+        var cubeForward = m_OrientationCube.transform.forward;
+
         // Set reward for this step according to mixture of the following elements.
-        if (rewardMovingTowardsTarget)
-        {
-            RewardFunctionMovingTowards();
-        }
+        // a. Match target speed
+        //This reward will approach 1 if it matches perfectly and approach zero as it deviates
+        var matchSpeedReward = GetMatchingVelocityReward(cubeForward * TargetWalkingSpeed, GetAvgVelocity());
 
-        if (rewardFacingTarget)
-        {
-            RewardFunctionFacingTarget();
-        }
+        // b. Rotation alignment with target direction.
+        //This reward will approach 1 if it faces the target direction perfectly and approach zero as it deviates
+        var lookAtTargetReward = (Vector3.Dot(cubeForward, body.forward) + 1) * .5F;
 
-        if (rewardUseTimePenalty)
+        AddReward(matchSpeedReward * lookAtTargetReward);
+    }
+
+    /// <summary>
+    /// Update OrientationCube and DirectionIndicator
+    /// </summary>
+    void UpdateOrientationObjects()
+    {
+        m_OrientationCube.UpdateOrientation(body, m_Target);
+        if (m_DirectionIndicator)
         {
-            RewardFunctionTimePenalty();
+            m_DirectionIndicator.MatchOrientation(m_OrientationCube.transform);
         }
     }
 
     /// <summary>
-    /// Reward moving towards target & Penalize moving away from target.
+    ///Returns the average velocity of all of the body parts
+    ///Using the velocity of the body only has shown to result in more erratic movement from the limbs
+    ///Using the average helps prevent this erratic movement
     /// </summary>
-    void RewardFunctionMovingTowards()
+    Vector3 GetAvgVelocity()
     {
-        m_MovingTowardsDot = Vector3.Dot(m_JdController.bodyPartsDict[body].rb.velocity, m_DirToTarget.normalized);
-        AddReward(0.03f * m_MovingTowardsDot);
+        Vector3 velSum = Vector3.zero;
+        Vector3 avgVel = Vector3.zero;
+
+        //ALL RBS
+        int numOfRb = 0;
+        foreach (var item in m_JdController.bodyPartsList)
+        {
+            numOfRb++;
+            velSum += item.rb.velocity;
+        }
+
+        avgVel = velSum / numOfRb;
+        return avgVel;
     }
 
     /// <summary>
-    /// Reward facing target & Penalize facing away from target
+    /// Normalized value of the difference in actual speed vs goal walking speed.
     /// </summary>
-    void RewardFunctionFacingTarget()
+    public float GetMatchingVelocityReward(Vector3 velocityGoal, Vector3 actualVelocity)
     {
-        m_FacingDot = Vector3.Dot(m_DirToTarget.normalized, body.forward);
-        AddReward(0.01f * m_FacingDot);
+        //distance between our actual velocity and goal velocity
+        var velDeltaMagnitude = Mathf.Clamp(Vector3.Distance(actualVelocity, velocityGoal), 0, TargetWalkingSpeed);
+
+        //return the value on a declining sigmoid shaped curve that decays from 1 to 0
+        //This reward will approach 1 if it matches perfectly and approach zero as it deviates
+        return Mathf.Pow(1 - Mathf.Pow(velDeltaMagnitude / TargetWalkingSpeed, 2), 2);
     }
 
     /// <summary>
-    /// Existential penalty for time-contrained tasks.
+    /// Agent touched the target
     /// </summary>
-    void RewardFunctionTimePenalty()
+    public void TouchedTarget()
     {
-        AddReward(-0.001f);
-    }
-
-    /// <summary>
-    /// Loop over body parts and reset them to initial conditions.
-    /// </summary>
-    public override void OnEpisodeBegin()
-    {
-        if (m_DirToTarget != Vector3.zero)
-        {
-            transform.rotation = Quaternion.LookRotation(m_DirToTarget);
-        }
-        transform.Rotate(Vector3.up, Random.Range(0.0f, 360.0f));
-
-        foreach (var bodyPart in m_JdController.bodyPartsDict.Values)
-        {
-            bodyPart.Reset(bodyPart);
-        }
-        if (!targetIsStatic)
-        {
-            GetRandomTargetPos();
-        }
+        AddReward(1f);
     }
 }

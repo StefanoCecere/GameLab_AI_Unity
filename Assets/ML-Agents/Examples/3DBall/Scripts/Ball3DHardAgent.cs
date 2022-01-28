@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.MLAgents;
-using Unity.MLAgents.Sensors;
+using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors.Reflection;
 
 public class Ball3DHardAgent : Agent
 {
@@ -16,17 +17,30 @@ public class Ball3DHardAgent : Agent
         SetResetParameters();
     }
 
-    public override void CollectObservations(VectorSensor sensor)
+    [Observable(numStackedObservations: 9)]
+    Vector2 Rotation
     {
-        sensor.AddObservation(gameObject.transform.rotation.z);
-        sensor.AddObservation(gameObject.transform.rotation.x);
-        sensor.AddObservation((ball.transform.position - gameObject.transform.position));
+        get
+        {
+            return new Vector2(gameObject.transform.rotation.z, gameObject.transform.rotation.x);
+        }
     }
 
-    public override void OnActionReceived(float[] vectorAction)
+    [Observable(numStackedObservations: 9)]
+    Vector3 PositionDelta
     {
-        var actionZ = 2f * Mathf.Clamp(vectorAction[0], -1f, 1f);
-        var actionX = 2f * Mathf.Clamp(vectorAction[1], -1f, 1f);
+        get
+        {
+            return ball.transform.position - gameObject.transform.position;
+        }
+    }
+
+    public override void OnActionReceived(ActionBuffers actionBuffers)
+
+    {
+        var continuousActions = actionBuffers.ContinuousActions;
+        var actionZ = 2f * Mathf.Clamp(continuousActions[0], -1f, 1f);
+        var actionX = 2f * Mathf.Clamp(continuousActions[1], -1f, 1f);
 
         if ((gameObject.transform.rotation.z < 0.25f && actionZ > 0f) ||
             (gameObject.transform.rotation.z > -0.25f && actionZ < 0f))
