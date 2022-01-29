@@ -10,7 +10,7 @@ namespace MLExamples.Roller
     public class RollerAgent : Agent
     {
         public Transform Target;
-        public float speed = 10;
+        public float forceMultiplier = 10;
         Rigidbody rBody;
         void Start()
         {
@@ -56,7 +56,7 @@ namespace MLExamples.Roller
             Vector3 controlSignal = Vector3.zero;
             controlSignal.x = actionBuffers.ContinuousActions[0];
             controlSignal.z = actionBuffers.ContinuousActions[1];
-            rBody.AddForce(controlSignal * speed);
+            rBody.AddForce(controlSignal * forceMultiplier);
 
             // Rewards
             float distanceToTarget = Vector3.Distance(this.transform.localPosition, Target.localPosition);
@@ -68,7 +68,7 @@ namespace MLExamples.Roller
             }
 
             // Fell off platform
-            if (this.transform.localPosition.y < 0) {
+            else if (this.transform.localPosition.y < 0) {
                 EndEpisode();
             }
         }
