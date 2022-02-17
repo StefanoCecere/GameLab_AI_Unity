@@ -17,8 +17,8 @@ deactivate
 #### run the simulation
 go into project directory
 
-`mlagents-learn config-ml/my_config.yaml --run-id=my_id`  
-`mlagents-learn config-ml/rollerball_config.yaml --run-id=RollerBall`
+`mlagents-learn config/my_config.yaml --run-id=my_id`  
+`mlagents-learn config/rollerball_config.yaml --run-id=RollerBall`
 
 #### background process
 ctrl-Z
