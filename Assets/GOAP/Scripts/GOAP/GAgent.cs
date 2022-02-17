@@ -46,7 +46,8 @@ public class GAgent : MonoBehaviour
     {
 
         GAction[] acts = this.GetComponents<GAction>();
-        foreach (GAction a in acts) {
+        foreach (GAction a in acts)
+        {
 
             actions.Add(a);
         }
@@ -67,14 +68,17 @@ public class GAgent : MonoBehaviour
     {
 
         //if there's a current action and it is still running
-        if (currentAction != null && currentAction.running) {
+        if (currentAction != null && currentAction.running)
+        {
 
             // Find the distance to the target
             float distanceToTarget = Vector3.Distance(currentAction.target.transform.position, this.transform.position);
             // Check the agent has a goal and has reached that goal
-            if (currentAction.agent.hasPath && distanceToTarget < 2.0f) { // currentAction.agent.remainingDistance < 1.0f) 
+            if (currentAction.agent.hasPath && distanceToTarget < 2.0f)
+            { // currentAction.agent.remainingDistance < 1.0f) 
 
-                if (!invoked) {
+                if (!invoked)
+                {
 
                     //if the action movement is complete wait
                     //a certain duration for it to be completed
@@ -86,7 +90,8 @@ public class GAgent : MonoBehaviour
         }
 
         // Check we have a planner and an actionQueue
-        if (planner == null || actionQueue == null) {
+        if (planner == null || actionQueue == null)
+        {
 
             // If planner is null then create a new one
             planner = new GPlanner();
@@ -95,11 +100,13 @@ public class GAgent : MonoBehaviour
             var sortedGoals = from entry in goals orderby entry.Value descending select entry;
 
             //look through each goal to find one that has an achievable plan
-            foreach (KeyValuePair<SubGoal, int> sg in sortedGoals) {
+            foreach (KeyValuePair<SubGoal, int> sg in sortedGoals)
+            {
 
                 actionQueue = planner.plan(actions, sg.Key.sGoals, beliefs);
                 // If actionQueue is not = null then we must have a plan
-                if (actionQueue != null) {
+                if (actionQueue != null)
+                {
 
                     // Set the current goal
                     currentGoal = sg.Key;
@@ -109,10 +116,12 @@ public class GAgent : MonoBehaviour
         }
 
         // Have we an actionQueue
-        if (actionQueue != null && actionQueue.Count == 0) {
+        if (actionQueue != null && actionQueue.Count == 0)
+        {
 
             // Check if currentGoal is removable
-            if (currentGoal.remove) {
+            if (currentGoal.remove)
+            {
 
                 // Remove it
                 goals.Remove(currentGoal);
@@ -122,27 +131,33 @@ public class GAgent : MonoBehaviour
         }
 
         // Do we still have actions
-        if (actionQueue != null && actionQueue.Count > 0) {
+        if (actionQueue != null && actionQueue.Count > 0)
+        {
 
             // Remove the top action of the queue and put it in currentAction
             currentAction = actionQueue.Dequeue();
 
-            if (currentAction.PrePerform()) {
+            if (currentAction.PrePerform())
+            {
 
                 // Get our current object
-                if (currentAction.target == null && currentAction.targetTag != "") {
+                if (currentAction.target == null && currentAction.targetTag != "")
+                {
 
                     currentAction.target = GameObject.FindWithTag(currentAction.targetTag);
                 }
 
-                if (currentAction.target != null) {
+                if (currentAction.target != null)
+                {
 
                     // Activate the current action
                     currentAction.running = true;
                     // Pass Unities AI the destination for the agent
                     currentAction.agent.SetDestination(currentAction.target.transform.position);
                 }
-            } else {
+            }
+            else
+            {
 
                 // Force a new plan
                 actionQueue = null;

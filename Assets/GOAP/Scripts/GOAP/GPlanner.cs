@@ -35,9 +35,11 @@ public class Node
 
         //as well as the world states add the agents beliefs as states that can be
         //used to match preconditions
-        foreach (KeyValuePair<string, int> b in beliefStates) {
+        foreach (KeyValuePair<string, int> b in beliefStates)
+        {
 
-            if (!this.state.ContainsKey(b.Key)) {
+            if (!this.state.ContainsKey(b.Key))
+            {
 
                 this.state.Add(b.Key, b.Value);
             }
@@ -55,9 +57,11 @@ public class GPlanner
         List<GAction> usableActions = new List<GAction>();
 
         //of all the actions available find the ones that can be achieved.
-        foreach (GAction a in actions) {
+        foreach (GAction a in actions)
+        {
 
-            if (a.IsAchievable()) {
+            if (a.IsAchievable())
+            {
 
                 usableActions.Add(a);
             }
@@ -71,7 +75,8 @@ public class GPlanner
         bool success = BuildGraph(start, leaves, usableActions, goal);
 
         //if a plan wasn't found
-        if (!success) {
+        if (!success)
+        {
 
             Debug.Log("NO PLAN");
             return null;
@@ -80,12 +85,16 @@ public class GPlanner
         //of all the plans found, find the one that's cheapest to execute
         //and use that
         Node cheapest = null;
-        foreach (Node leaf in leaves) {
+        foreach (Node leaf in leaves)
+        {
 
-            if (cheapest == null) {
+            if (cheapest == null)
+            {
 
                 cheapest = leaf;
-            } else if (leaf.cost < cheapest.cost) {
+            }
+            else if (leaf.cost < cheapest.cost)
+            {
 
                 cheapest = leaf;
             }
@@ -93,9 +102,11 @@ public class GPlanner
         List<GAction> result = new List<GAction>();
         Node n = cheapest;
 
-        while (n != null) {
+        while (n != null)
+        {
 
-            if (n.action != null) {
+            if (n.action != null)
+            {
 
                 result.Insert(0, n.action);
             }
@@ -107,13 +118,15 @@ public class GPlanner
         //for the agent to work its way through
         Queue<GAction> queue = new Queue<GAction>();
 
-        foreach (GAction a in result) {
+        foreach (GAction a in result)
+        {
 
             queue.Enqueue(a);
         }
 
         Debug.Log("The Plan is: ");
-        foreach (GAction a in queue) {
+        foreach (GAction a in queue)
+        {
 
             Debug.Log("Q: " + a.actionName);
         }
@@ -127,19 +140,23 @@ public class GPlanner
         bool foundPath = false;
 
         //with all the useable actions
-        foreach (GAction action in usableActions) {
+        foreach (GAction action in usableActions)
+        {
 
             //check their preconditions
-            if (action.IsAhievableGiven(parent.state)) {
+            if (action.IsAhievableGiven(parent.state))
+            {
 
                 //get the state of the world if the parent node were to be executed
                 Dictionary<string, int> currentState = new Dictionary<string, int>(parent.state);
 
                 //add the effects of this node to the nodes states to reflect what
                 //the world would look like if this node's action were executed
-                foreach (KeyValuePair<string, int> eff in action.effects) {
+                foreach (KeyValuePair<string, int> eff in action.effects)
+                {
 
-                    if (!currentState.ContainsKey(eff.Key)) {
+                    if (!currentState.ContainsKey(eff.Key))
+                    {
 
                         currentState.Add(eff.Key, eff.Value);
                     }
@@ -150,16 +167,20 @@ public class GPlanner
 
                 //if the current state of the world after doing this node's action is the goal
                 //this plan will achieve that goal and will become the agent's plan
-                if (GoalAchieved(goal, currentState)) {
+                if (GoalAchieved(goal, currentState))
+                {
 
                     leaves.Add(node);
                     foundPath = true;
-                } else {
+                }
+                else
+                {
                     //if no goal has been found branch out to add other actions to the plan
                     List<GAction> subset = ActionSubset(usableActions, action);
                     bool found = BuildGraph(node, leaves, subset, goal);
 
-                    if (found) {
+                    if (found)
+                    {
 
                         foundPath = true;
                     }
@@ -175,9 +196,11 @@ public class GPlanner
 
         List<GAction> subset = new List<GAction>();
 
-        foreach (GAction a in actions) {
+        foreach (GAction a in actions)
+        {
 
-            if (!a.Equals(removeMe)) {
+            if (!a.Equals(removeMe))
+            {
 
                 subset.Add(a);
             }
@@ -189,9 +212,11 @@ public class GPlanner
     private bool GoalAchieved(Dictionary<string, int> goal, Dictionary<string, int> state)
     {
 
-        foreach (KeyValuePair<string, int> g in goal) {
+        foreach (KeyValuePair<string, int> g in goal)
+        {
 
-            if (!state.ContainsKey(g.Key)) {
+            if (!state.ContainsKey(g.Key))
+            {
 
                 return false;
             }

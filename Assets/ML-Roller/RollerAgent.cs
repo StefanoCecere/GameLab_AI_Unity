@@ -19,7 +19,8 @@ namespace MLExamples.Roller
 
         public override void OnEpisodeBegin()
         {
-            if (this.transform.localPosition.y < 0) {
+            if (this.transform.localPosition.y < 0)
+            {
                 // If the Agent fell, zero its momentum
                 this.rBody.angularVelocity = Vector3.zero;
                 this.rBody.velocity = Vector3.zero;
@@ -62,13 +63,15 @@ namespace MLExamples.Roller
             float distanceToTarget = Vector3.Distance(this.transform.localPosition, Target.localPosition);
 
             // Reached target
-            if (distanceToTarget < 1.42f) {
+            if (distanceToTarget < 1.42f)
+            {
                 SetReward(1.0f);
                 EndEpisode();
             }
 
             // Fell off platform
-            else if (this.transform.localPosition.y < 0) {
+            else if (this.transform.localPosition.y < 0)
+            {
                 EndEpisode();
             }
         }
