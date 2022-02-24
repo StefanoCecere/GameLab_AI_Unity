@@ -134,7 +134,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
   Target: {fileID: 396586649301571721}
-  speed: 10
+  forceMultiplier: 10
 --- !u!114 &4190179886359332242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 5022602860645237092, guid: 2c652132b79ce447a913f95781e2ac77, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_BehaviorType: 2
   m_BehaviorName: RollerBall
   TeamId: 0
   m_UseChildSensors: 1
