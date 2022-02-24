@@ -44,7 +44,7 @@ namespace MLExamples.Cars
             var moveVec = transform.position - lastPos;
             float angle = Vector3.Angle(moveVec, _track.forward);
             float bonus = (1f - angle / 90f) * Mathf.Clamp01(vertical) * Time.fixedDeltaTime;
-            AddReward(bonus + reward);
+            AddReward(bonus);
 
             score += reward;
         }
@@ -52,7 +52,7 @@ namespace MLExamples.Cars
         public override void Heuristic(in ActionBuffers actionsOut)
         {
             var continuousActionsOut = actionsOut.ContinuousActions;
-            continuousActionsOut[0] = -Input.GetAxis("Horizontal");
+            continuousActionsOut[0] = Input.GetAxis("Horizontal");
             continuousActionsOut[1] = Input.GetAxis("Vertical");
         }
 
@@ -91,10 +91,12 @@ namespace MLExamples.Cars
             var carCenter = transform.position + Vector3.up;
 
             // Find what tile I'm on
-            if (Physics.Raycast(carCenter, Vector3.down, out var hit, 2f)) {
+            if (Physics.Raycast(carCenter, Vector3.down, out var hit, 2f))
+            {
                 var newHit = hit.transform;
                 // Check if the tile has changed
-                if (_track != null && newHit != _track) {
+                if (_track != null && newHit != _track)
+                {
                     float angle = Vector3.Angle(_track.forward, newHit.position - _track.position);
                     reward = (angle < 90f) ? 1 : -1;
                 }
@@ -107,7 +109,8 @@ namespace MLExamples.Cars
 
         public override void OnEpisodeBegin()
         {
-            if (resetOnCollision) {
+            if (resetOnCollision)
+            {
                 transform.localPosition = Vector3.zero;
                 transform.localRotation = Quaternion.identity;
             }
@@ -115,7 +118,8 @@ namespace MLExamples.Cars
 
         private void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject.CompareTag("wall")) {
+            if (other.gameObject.CompareTag("wall"))
+            {
                 SetReward(-1f);
                 EndEpisode();
             }

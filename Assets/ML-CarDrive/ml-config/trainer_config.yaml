@@ -1,0 +1,5 @@
+behaviors:
+    CarDrive:
+        trainer_type: ppo    
+        summary_freq: 10000
+            

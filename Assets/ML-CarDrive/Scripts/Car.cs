@@ -13,9 +13,9 @@ namespace MLExamples.Cars
 
         private Transform _track;
 
-        private void FixedUpdate()
+        private void Update()
         {
-            float horizontal = -Input.GetAxis("Horizontal");
+            float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
             float dt = Time.deltaTime;
             MoveCar(horizontal, vertical, dt);
@@ -39,10 +39,12 @@ namespace MLExamples.Cars
             var carCenter = transform.position + Vector3.up;
 
             // Find what tile I'm on
-            if (Physics.Raycast(carCenter, Vector3.down, out var hit, 2f)) {
+            if (Physics.Raycast(carCenter, Vector3.down, out var hit, 2f))
+            {
                 var newHit = hit.transform;
                 // Check if the tile has changed
-                if (_track != null && newHit != _track) {
+                if (_track != null && newHit != _track)
+                {
                     float angle = Vector3.Angle(_track.forward, newHit.position - _track.position);
                     reward = (angle < 90f) ? 1 : -1;
                 }
