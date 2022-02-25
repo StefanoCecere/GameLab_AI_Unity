@@ -83,6 +83,6 @@ _local.meta
 /Assets/Demonstrations*
 /Assets/ML-Agents/Timers*
 /csharp_timers.json
-ml-agents
-ml-agents-envs
+/ml-agents
+/ml-agents-envs
 results
