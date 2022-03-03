@@ -189,7 +189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6063874513490824779}
   m_Layer: 0
-  m_Name: Roller Trainng Area
+  m_Name: Roller Training Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

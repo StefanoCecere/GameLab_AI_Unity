@@ -11,7 +11,8 @@ namespace MLExamples.Roller
     {
         public Transform Target;
         public float forceMultiplier = 10;
-        Rigidbody rBody;
+        private Rigidbody rBody;
+
         void Start()
         {
             rBody = GetComponent<Rigidbody>();
@@ -67,11 +68,9 @@ namespace MLExamples.Roller
             {
                 SetReward(1.0f);
                 EndEpisode();
-            }
-
-            // Fell off platform
-            else if (this.transform.localPosition.y < 0)
+            } else if (this.transform.localPosition.y < 0)
             {
+                // Fell off platform
                 EndEpisode();
             }
         }

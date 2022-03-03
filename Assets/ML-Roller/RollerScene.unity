@@ -132,7 +132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063874513490824778, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_Name
-      value: Roller Trainng Area (7)
+      value: Roller Training Area (7)
       objectReference: {fileID: 0}
     - target: {fileID: 6063874513490824779, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_RootOrder
@@ -189,7 +189,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063874513490824778, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_Name
-      value: Roller Trainng Area (4)
+      value: Roller Training Area (4)
       objectReference: {fileID: 0}
     - target: {fileID: 6063874513490824779, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_RootOrder
@@ -246,7 +246,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063874513490824778, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_Name
-      value: Roller Trainng Area (6)
+      value: Roller Training Area (6)
       objectReference: {fileID: 0}
     - target: {fileID: 6063874513490824779, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_RootOrder
@@ -303,7 +303,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063874513490824778, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_Name
-      value: Roller Trainng Area (2)
+      value: Roller Training Area (2)
       objectReference: {fileID: 0}
     - target: {fileID: 6063874513490824779, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_RootOrder
@@ -444,7 +444,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063874513490824778, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_Name
-      value: Roller Trainng Area (3)
+      value: Roller Training Area (3)
       objectReference: {fileID: 0}
     - target: {fileID: 6063874513490824779, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_RootOrder
@@ -501,7 +501,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063874513490824778, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_Name
-      value: Roller Trainng Area (1)
+      value: Roller Training Area (1)
       objectReference: {fileID: 0}
     - target: {fileID: 6063874513490824779, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_RootOrder
@@ -558,7 +558,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063874513490824778, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_Name
-      value: Roller Trainng Area (5)
+      value: Roller Training Area (5)
       objectReference: {fileID: 0}
     - target: {fileID: 6063874513490824779, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_RootOrder
@@ -709,7 +709,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063874513490824778, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_Name
-      value: Roller Trainng Area
+      value: Roller Training Area
       objectReference: {fileID: 0}
     - target: {fileID: 6063874513490824779, guid: 17d182ddbf9894068acacfd8a63c8ab0, type: 3}
       propertyPath: m_RootOrder
