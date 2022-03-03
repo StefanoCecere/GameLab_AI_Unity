@@ -1,5 +1,7 @@
-Pacman-Clone
-============
+# Pacman-Clone
+
+<https://github.com/vilbeyli/Pacman>
+
 
 ![Screenshot](http://i.imgur.com/GQcmfQY.png)
 
