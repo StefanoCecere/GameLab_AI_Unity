@@ -8,6 +8,9 @@ usiamo la release 17
 ### docs
 https://github.com/Unity-Technologies/ml-agents/tree/release_17_docs/docs
 
+Spiegazione di tutti gli esempi:  
+https://github.com/Unity-Technologies/ml-agents/blob/release_17_docs/docs/Learning-Environment-Examples.md
+
 #### Commands
 go into project directory
 
@@ -61,7 +64,7 @@ pip install mlagents==0.26.0
 entrare nella directory del progetto ml-agents: 
 `cd C:/blabla bla/ml-agents/`
 
-provare a lanciare il comando `mlagents-learn`, deve comparire il logo UNITY.
+provare a lanciare il comando `mlagents-learn`, deve comparire il logo UNITY
 
 ### metodo 2: con virtual environments (consigliato)
 se volete isolare le installazioni di Python e relativi moduli, ad esempio per avere diverse versioni separate, si usano i virtual Environments, ovvero delle directory con dentro tutta la config.

@@ -29,6 +29,9 @@ TagManager:
   - symbol_O_Goal
   - purpleAgent
   - purpleGoal
+  - flower_plant
+  - nectar
+  - boundary
   layers:
   - Default
   - TransparentFX
