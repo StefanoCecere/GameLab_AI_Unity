@@ -1,0 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using KieranCoppins.DecisionTrees;
+
+public class #SCRIPTNAME# : ConditionDecision
+{
+    public override void Initialise<T>(T metaData)
+    {
+        base.Initialise(metaData);
+        // Insert any logic about storing metaData passed through every node of the tree
+    }
+
+    public override DecisionTreeNode GetBranch()
+    {
+        #NOTRIM#
+    }
+}
