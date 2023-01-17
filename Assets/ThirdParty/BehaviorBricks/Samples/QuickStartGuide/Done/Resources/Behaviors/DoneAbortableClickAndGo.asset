@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a7c8ca992f915438a96c2077353778, type: 3}
+  m_Name: DoneAbortableClickAndGo
+  m_EditorClassIdentifier: 
+  brickName: Assets/ThirdParty/BehaviorBricks/Samples/QuickStartGuide/Done/Resources/Behaviors/DoneAbortableClickAndGo.asset
+  xml: "\uFEFF<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<BehaviorBricks xmlns:ref=\"urn:padaone\"
+    version=\"1.0\">\n  <BehaviorTree id=\"0\" />\n  <runtimeInfo>\n    <BehaviorTree
+    id=\"0\" guid=\"94f7b8d9d503df647aec1b5cdce03b4b\" nextId=\"9\">\n      <root>\n       
+    <RepeatDecorator id=\"1\" />\n      </root>\n      <inputParams>\n        <inputValues>\n         
+    <entry name=\"mask\" type=\"UnityEngine.LayerMask\" isBlackboard=\"False\" />\n         
+    <entry name=\"camera\" type=\"UnityEngine.Camera\" isBlackboard=\"False\" />\n       
+    </inputValues>\n      </inputParams>\n      <outputParams />\n      <localParams>\n       
+    <localValues>\n          <entry name=\"selectedPosition\" type=\"UnityEngine.Vector3\"
+    isBlackboard=\"False\" value=\"0 0 0\" />\n        </localValues>\n      </localParams>\n   
+    </BehaviorTree>\n    <RepeatDecorator id=\"1\" loops=\"-1\" policy=\"ContinueWhenChildFails\">\n     
+    <child>\n        <PrioritySelectorNode id=\"2\" />\n      </child>\n      <inputParams
+    />\n      <outputParams />\n      <localParams />\n    </RepeatDecorator>\n   
+    <PrioritySelectorNode id=\"2\">\n      <children>\n        <elem>\n         
+    <GuardAndNode>\n            <guard>\n              <ConditionEvalNode id=\"7\"
+    />\n            </guard>\n            <child>\n              <ActionNode id=\"3\"
+    />\n            </child>\n          </GuardAndNode>\n        </elem>\n       
+    <elem>\n          <GuardAndNode>\n            <guard>\n              <ConditionEvalNode
+    id=\"8\" />\n            </guard>\n            <child>\n              <ActionNode
+    id=\"5\" />\n            </child>\n          </GuardAndNode>\n        </elem>\n     
+    </children>\n      <inputParams />\n      <outputParams />\n      <localParams
+    />\n    </PrioritySelectorNode>\n    <ConditionEvalNode id=\"7\" policy=\"ATOMIC_CHECK\"
+    name=\"Basic/CheckMouseButton\">\n      <inputParams />\n      <outputParams
+    />\n      <localParams />\n    </ConditionEvalNode>\n    <ActionNode id=\"3\"
+    action=\"Physics/FromMouseToWorld\">\n      <inputParams>\n        <inputValues>\n         
+    <entry name=\"camera\" type=\"UnityEngine.Camera\" isBlackboard=\"True\" blackboard=\"camera\"
+    />\n          <entry name=\"mask\" type=\"UnityEngine.LayerMask\" isBlackboard=\"True\"
+    blackboard=\"mask\" />\n        </inputValues>\n      </inputParams>\n      <outputParams>\n       
+    <outputValues>\n          <entry name=\"selectedPosition\" type=\"UnityEngine.Vector3\"
+    isBlackboard=\"True\" blackboard=\"selectedPosition\" />\n        </outputValues>\n     
+    </outputParams>\n      <localParams />\n    </ActionNode>\n    <ConditionEvalNode
+    id=\"8\" policy=\"ATOMIC_CHECK\" name=\"AlwaysTrue\">\n      <inputParams />\n     
+    <outputParams />\n      <localParams />\n    </ConditionEvalNode>\n    <ActionNode
+    id=\"5\" action=\"Navigation/MoveToPosition\">\n      <inputParams>\n       
+    <inputValues>\n          <entry name=\"target\" type=\"UnityEngine.Vector3\"
+    isBlackboard=\"True\" blackboard=\"selectedPosition\" />\n        </inputValues>\n     
+    </inputParams>\n      <outputParams />\n      <localParams />\n    </ActionNode>\n 
+    </runtimeInfo>\n  <editorInfo>\n    <BehaviorTree id=\"0\" _name=\"QuickStartGuide/DoneAbortableClickAndGo\"
+    _description=\"Moves the Game Object to the last position indicated by the left
+    mouse click. A new click will overwrite the previous position.\" _removeIfClosed=\"False\">\n     
+    <_rootList>\n        <elem>\n          <RepeatDecorator id=\"1\" />\n       
+    </elem>\n        <elem>\n          <ConditionEvalNode id=\"7\" />\n        </elem>\n       
+    <elem>\n          <ConditionEvalNode id=\"8\" />\n        </elem>\n      </_rootList>\n     
+    <_nodes>\n        <nodes>\n          <RepeatDecorator id=\"1\" />\n         
+    <PrioritySelectorNode id=\"2\" />\n          <ActionNode id=\"3\" />\n         
+    <ConditionEvalNode id=\"8\" />\n          <ActionNode id=\"5\" />\n         
+    <ConditionEvalNode id=\"7\" />\n        </nodes>\n      </_nodes>\n    </BehaviorTree>\n   
+    <RepeatDecorator id=\"1\">\n      <_data>\n        <data breakpoint=\"0\" selected=\"False\"
+    position=\"462.375 90\" name=\"Repeat\" description=\"Repeats the execution of
+    its child node\" cardinality=\"1\" hasParent=\"False\">\n          <BehaviorTree
+    id=\"0\" />\n          <RepeatDecorator id=\"1\" />\n        </data>\n      </_data>\n   
+    </RepeatDecorator>\n    <PrioritySelectorNode id=\"2\">\n      <_data>\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"407.375 221\" name=\"Priority
+    Selector\" description=\"Executes all its children, starting from the one with
+    the highest priority, until one of them is successful\" cardinality=\"-1\" hasParent=\"True\">\n         
+    <BehaviorTree id=\"0\" />\n          <PrioritySelectorNode id=\"2\" />\n         
+    <RepeatDecorator id=\"1\" />\n        </data>\n      </_data>\n    </PrioritySelectorNode>\n   
+    <ConditionEvalNode id=\"7\">\n      <_data>\n        <data breakpoint=\"0\" selected=\"True\"
+    position=\"280.375 379\" name=\"Basic/CheckMouseButton\" description=\"Eval\"
+    cardinality=\"1\" hasParent=\"True\">\n          <BehaviorTree id=\"0\" />\n         
+    <ConditionEvalNode id=\"7\" />\n          <PrioritySelectorNode id=\"2\" />\n       
+    </data>\n      </_data>\n    </ConditionEvalNode>\n    <ActionNode id=\"3\">\n     
+    <_data>\n        <data breakpoint=\"0\" selected=\"False\" position=\"280.375
+    379\" name=\"Physics/FromMouseToWorld\" description=\"Gets the game object and
+    position that is under the mouse cursor\" cardinality=\"0\" hasParent=\"True\">\n         
+    <BehaviorTree id=\"0\" />\n          <ActionNode id=\"3\" />\n          <ConditionEvalNode
+    id=\"4\" />\n        </data>\n      </_data>\n    </ActionNode>\n    <ConditionEvalNode
+    id=\"8\">\n      <_data>\n        <data breakpoint=\"0\" selected=\"False\" position=\"559.375
+    379.35\" name=\"AlwaysTrue\" description=\"Eval\" cardinality=\"1\" hasParent=\"True\">\n         
+    <BehaviorTree id=\"0\" />\n          <ConditionEvalNode id=\"8\" />\n         
+    <PrioritySelectorNode id=\"2\" />\n        </data>\n      </_data>\n    </ConditionEvalNode>\n   
+    <ActionNode id=\"5\">\n      <_data>\n        <data breakpoint=\"0\" selected=\"False\"
+    position=\"559.375 379.35\" name=\"Navigation/MoveToPosition\" description=\"Moves
+    the game object to a given position by using a NavMeshAgent\" cardinality=\"0\"
+    hasParent=\"True\">\n          <BehaviorTree id=\"0\" />\n          <ActionNode
+    id=\"5\" />\n          <ConditionEvalNode id=\"6\" />\n        </data>\n     
+    </_data>\n    </ActionNode>\n  </editorInfo>\n  <runtimeInfo>\n    <ConditionEvalNode
+    id=\"4\" policy=\"ATOMIC_CHECK\" name=\"Basic/CheckMouseButton\">\n      <inputParams
+    />\n      <outputParams />\n      <localParams />\n    </ConditionEvalNode>\n   
+    <ConditionEvalNode id=\"6\" policy=\"ATOMIC_CHECK\" name=\"AlwaysTrue\">\n     
+    <inputParams />\n      <outputParams />\n      <localParams />\n    </ConditionEvalNode>\n 
+    </runtimeInfo>\n  <editorInfo>\n    <ConditionEvalNode id=\"4\">\n      <_data>\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"243.375 57\" name=\"Basic/CheckMouseButton\"
+    description=\"Checks whether a mouse button is pressed\" cardinality=\"0\" hasParent=\"False\">\n         
+    <BehaviorTree id=\"4\" />\n        </data>\n      </_data>\n    </ConditionEvalNode>\n   
+    <ConditionEvalNode id=\"6\">\n      <_data>\n        <data breakpoint=\"0\" selected=\"False\"
+    position=\"-5.625 56\" name=\"AlwaysTrue\" description=\"\" cardinality=\"0\"
+    hasParent=\"False\">\n          <BehaviorTree id=\"6\" />\n        </data>\n     
+    </_data>\n    </ConditionEvalNode>\n  </editorInfo>\n  <runtimeInfo>\n    <BehaviorTree
+    id=\"4\" nextId=\"1\">\n      <inputParams />\n      <outputParams />\n     
+    <localParams />\n    </BehaviorTree>\n    <BehaviorTree id=\"6\" nextId=\"1\">\n     
+    <inputParams />\n      <outputParams />\n      <localParams />\n    </BehaviorTree>\n 
+    </runtimeInfo>\n  <editorInfo>\n    <BehaviorTree id=\"4\" _removeIfClosed=\"False\">\n     
+    <_rootList />\n      <_nodes>\n        <nodes />\n      </_nodes>\n    </BehaviorTree>\n   
+    <BehaviorTree id=\"6\" _removeIfClosed=\"False\">\n      <_rootList />\n     
+    <_nodes>\n        <nodes />\n      </_nodes>\n    </BehaviorTree>\n  </editorInfo>\n</BehaviorBricks>"
+  zoom: 1
+  subslist: []
+  _guid: 94f7b8d9d503df647aec1b5cdce03b4b
