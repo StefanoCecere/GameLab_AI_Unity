@@ -1,5 +1,21 @@
 {
   "dependencies": {
+    "com.kierancoppins.decision-trees": {
+      "version": "https://github.com/KieranCoppins/Decision-Tree-Package.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.kierancoppins.generic-helpers": "1.0.2"
+      },
+      "hash": "2e9680bcbe4b883dcf7735b95e2954da3d95ad63"
+    },
+    "com.kierancoppins.generic-helpers": {
+      "version": "https://github.com/KieranCoppins/Generic-Helpers.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "4bff2a7f55b222ba0fd1f339c81803fcbaa4ff4a"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -132,6 +148,16 @@
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
       }
+    },
+    "com.unity.visualscripting": {
+      "version": "1.7.8",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
