@@ -32,6 +32,7 @@ TagManager:
   - flower_plant
   - nectar
   - boundary
+  - MainLight
   layers:
   - Default
   - TransparentFX
@@ -42,7 +43,7 @@ TagManager:
   - 
   - 
   - invisible
-  - 
+  - obstacle
   - 
   - 
   - 
