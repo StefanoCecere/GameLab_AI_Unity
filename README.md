@@ -1,15 +1,15 @@
-# GameAI Lab 
+# GameAI Lab
 Unity 2021 project
 a collection of AI examples
 
 ## ML Agents
-usiamo la release 17
+usiamo la release 20
 
 ### docs
-https://github.com/Unity-Technologies/ml-agents/tree/release_17_docs/docs
+<https://github.com/Unity-Technologies/ml-agents/blob/release_20_docs/docs/Readme.md>
 
 Spiegazione di tutti gli esempi:  
-https://github.com/Unity-Technologies/ml-agents/blob/release_17_docs/docs/Learning-Environment-Examples.md
+<https://github.com/Unity-Technologies/ml-agents/blob/release_20_docs/docs/Learning-Environment-Examples.md>
 
 #### Commands
 go into project directory
@@ -24,7 +24,7 @@ deactivate
 ## Run Training
 mlagents-learn config/my_config.yaml --run-id=my_id  
 mlagents-learn config/rollerball_config.yaml --run-id=RollerBall
-mlagents-learn config/ppo/3DBall.yaml  --run-id=3DBall_1
+mlagents-learn config/ppo/3DBall.yaml --run-id=3DBall_Test
 
 ## Tensorboard
 tensorboard --logdir results --port 6006
@@ -34,18 +34,18 @@ ctrl-Z
 bg / fg
 
 ## installare ml-agents
-procedure per installare Python (min 3.6.1) + ml-agents su Windows 64 bit  
-<https://github.com/Unity-Technologies/ml-agents/blob/release_17_docs/docs/Installation.md>
+procedure per installare Python (min 3.8.13) + ml-agents su Windows 64 bit  
+<https://github.com/Unity-Technologies/ml-agents/blob/release_20_docs/docs/Installation.md>
 
 ### Create Python environment
 
-```
+```shell
 python3 -m venv ~/python-envs/mlagents-env
 source ~/python-envs/mlagents-env/bin/activate
 pip install --upgrade pip
 pip install --upgrade setuptools
 pip install torch~=1.7.1 -f https://download.pytorch.org/whl/torch_stable.html
-pip install mlagents==0.26.0
+pip install mlagents==0.30.0
 ```
 
 ### metodo 1: diretto (più veloce)
@@ -59,7 +59,7 @@ scaricare Windows x86-64 executable installer da https://www.python.org/download
 pip install --upgrade pip
 pip install --upgrade setuptools
 pip install torch~=1.7.1 -f https://download.pytorch.org/whl/torch_stable.html
-pip install mlagents==0.26.0
+pip install mlagents==0.30.0
 ```
 entrare nella directory del progetto ml-agents: 
 `cd C:/blabla bla/ml-agents/`
