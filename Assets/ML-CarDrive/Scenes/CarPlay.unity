@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1208663117}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -639,7 +639,7 @@ PrefabInstance:
     - target: {fileID: -7090745051701112706, guid: 20c7f04929221b946a1bf2d707af0a2e, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 092026f839b5e104b8000757ee894cac, type: 3}
+      objectReference: {fileID: 5022602860645237092, guid: a01b70398f5d647d9a95462385eb91c8, type: 3}
     - target: {fileID: 99863416, guid: 20c7f04929221b946a1bf2d707af0a2e, type: 3}
       propertyPath: resetOnCollision
       value: 0
@@ -861,7 +861,7 @@ PrefabInstance:
     - target: {fileID: -7090745051701112706, guid: 20c7f04929221b946a1bf2d707af0a2e, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 092026f839b5e104b8000757ee894cac, type: 3}
+      objectReference: {fileID: 5022602860645237092, guid: a01b70398f5d647d9a95462385eb91c8, type: 3}
     - target: {fileID: 99863416, guid: 20c7f04929221b946a1bf2d707af0a2e, type: 3}
       propertyPath: resetOnCollision
       value: 0
@@ -2033,7 +2033,7 @@ PrefabInstance:
     - target: {fileID: -7090745051701112706, guid: 20c7f04929221b946a1bf2d707af0a2e, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 092026f839b5e104b8000757ee894cac, type: 3}
+      objectReference: {fileID: 5022602860645237092, guid: a01b70398f5d647d9a95462385eb91c8, type: 3}
     - target: {fileID: -7090745051701112706, guid: 20c7f04929221b946a1bf2d707af0a2e, type: 3}
       propertyPath: m_BehaviorType
       value: 1
@@ -2384,7 +2384,7 @@ PrefabInstance:
     - target: {fileID: -7090745051701112706, guid: 20c7f04929221b946a1bf2d707af0a2e, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 092026f839b5e104b8000757ee894cac, type: 3}
+      objectReference: {fileID: 5022602860645237092, guid: a01b70398f5d647d9a95462385eb91c8, type: 3}
     - target: {fileID: 99863416, guid: 20c7f04929221b946a1bf2d707af0a2e, type: 3}
       propertyPath: resetOnCollision
       value: 0
