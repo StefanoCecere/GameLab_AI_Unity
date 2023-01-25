@@ -7,6 +7,7 @@ usiamo la release 20
 
 - [Docs Ufficiali](https://github.com/Unity-Technologies/ml-agents/blob/release_20_docs/docs/Readme.md)
 - [Spiegazione di tutti gli esempi](https://github.com/Unity-Technologies/ml-agents/blob/release_20_docs/docs/Learning-Environment-Examples.md)
+- [Dettagli dei parametri config](https://unity-technologies.github.io/ml-agents/Training-Configuration-File/)
 
 ## Commands
 Entrare con la Shell nella directory del progetto.
@@ -34,7 +35,7 @@ mlagents-learn ml-config/ppo/3DBall.yaml --run-id=3DBall_Test
 
 ```shell
 ## meglio aprire una nuova shell parallela
-tensorboard --logdir results --port 6006
+tensorboard --logdir results
 
 ## oppure mandare in Background process
 ctrl-Z  
