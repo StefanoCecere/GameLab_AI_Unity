@@ -37,7 +37,7 @@ namespace MLExamples.Roller
         public override void Heuristic(in ActionBuffers actionsOut)
         {
             var continuousActionsOut = actionsOut.ContinuousActions;
-            continuousActionsOut[0] = -Input.GetAxis("Horizontal");
+            continuousActionsOut[0] = Input.GetAxis("Horizontal");
             continuousActionsOut[1] = Input.GetAxis("Vertical");
         }
 
@@ -68,7 +68,8 @@ namespace MLExamples.Roller
             {
                 SetReward(1.0f);
                 EndEpisode();
-            } else if (this.transform.localPosition.y < 0)
+            }
+            else if (this.transform.localPosition.y < 0)
             {
                 // Fell off platform
                 EndEpisode();
