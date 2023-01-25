@@ -27,8 +27,8 @@ behaviors:
       gail:
         strength: 0.01
         gamma: 0.99
-        demo_path: Project/Assets/ML-Agents/Examples/Pyramids/Demos/ExpertPyramid.demo
+        demo_path: Assets/ML-Agents/Examples/Pyramids/Demos/ExpertPyramid.demo
     behavioral_cloning:
-      demo_path: Project/Assets/ML-Agents/Examples/Pyramids/Demos/ExpertPyramid.demo
+      demo_path: Assets/ML-Agents/Examples/Pyramids/Demos/ExpertPyramid.demo
       strength: 0.5
       steps: 150000

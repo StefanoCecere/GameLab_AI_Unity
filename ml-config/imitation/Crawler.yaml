@@ -27,13 +27,13 @@ behaviors:
         learning_rate: 0.0003
         use_actions: false
         use_vail: false
-        demo_path: Project/Assets/ML-Agents/Examples/Crawler/Demos/ExpertCrawler.demo
+        demo_path: Assets/ML-Agents/Examples/Crawler/Demos/ExpertCrawler.demo
     keep_checkpoints: 5
     max_steps: 10000000
     time_horizon: 1000
     summary_freq: 30000
     behavioral_cloning:
-      demo_path: Project/Assets/ML-Agents/Examples/Crawler/Demos/ExpertCrawler.demo
+      demo_path: Assets/ML-Agents/Examples/Crawler/Demos/ExpertCrawler.demo
       steps: 50000
       strength: 0.5
       samples_per_update: 0

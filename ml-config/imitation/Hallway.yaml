@@ -28,7 +28,7 @@ behaviors:
         learning_rate: 0.0003
         use_actions: false
         use_vail: false
-        demo_path: Project/Assets/ML-Agents/Examples/Hallway/Demos/ExpertHallway.demo
+        demo_path: Assets/ML-Agents/Examples/Hallway/Demos/ExpertHallway.demo
     keep_checkpoints: 5
     max_steps: 10000000
     time_horizon: 64
