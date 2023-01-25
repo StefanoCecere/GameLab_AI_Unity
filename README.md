@@ -66,8 +66,8 @@ NB: se `pip` non funziona, usare `pip3`
 cd C:/path/GameLab_AI_Unity/
 
 ## creaiamo environment Python
-python3 -m venv mlagents-env
-source mlagents-env/bin/activate
+python -m venv mlagents-env
+mlagents-env\Scripts\activate
 
 ## installiamo
 pip install --upgrade pip
