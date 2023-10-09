@@ -104,3 +104,34 @@ The following packages were updated:
   com.unity.inputsystem from version 1.4.4 to 1.5.1
   com.unity.nuget.newtonsoft-json from version 3.0.2 to 3.1.0
   com.unity.visualscripting from version 1.7.8 to 1.8.0
+
+=== Fri Jun  9 17:48:45 2023
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.nuget.newtonsoft-json from version 3.1.0 to 3.2.0
+  com.unity.timeline from version 1.6.4 to 1.6.5
+
+=== Thu Jun 15 12:43:44 2023
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.inputsystem from version 1.5.1 to 1.6.1
+  com.unity.nuget.newtonsoft-json from version 3.2.0 to 3.2.1
+
+=== Mon Oct  9 22:40:31 2023
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were added:
+  com.unity.ai.navigation@1.1.4
+The following packages were updated:
+  com.unity.burst from version 1.6.6 to 1.8.8
+  com.unity.inputsystem from version 1.6.1 to 1.7.0
+  com.unity.timeline from version 1.6.5 to 1.7.5
+  com.unity.visualscripting from version 1.8.0 to 1.9.0
