@@ -1,9 +1,6 @@
 {
-    "files.exclude":
-    {
+    "files.exclude": {
         ".vs": true,
-        "*.csproj": true,
-        "*.sln": true,
         "**/.DS_Store": true,
         "**/.git": true,
         "**/.gitignore": true,
@@ -56,5 +53,6 @@
         "temp/": true,
         "Temp/": true,
         "mlagents-env/": true
-    }
+    },
+    "dotnet.defaultSolution": "GameLab_AI_Unity.sln"
 }
